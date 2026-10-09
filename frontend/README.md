@@ -1,4 +1,9 @@
-# React + TypeScript + Vite
+# ÉLAN — Магазин дизайнерской одежды
+
+Веб-приложение для продажи дизайнерской одежды. Реализовано на React + TypeScript + Vite.
+Контейнеризация через Docker, автоматическая сборка через GitHub Actions.
+
+---
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
