@@ -47,19 +47,25 @@ export default function App() {
       <Header />
 
       <main className="main">
-        <h1 className="section-title">Популярные товары</h1>
+        {/* Главный заголовок страницы — один h1 */}
+        <h1 className="page-title">Магазин дизайнерской одежды ÉLAN</h1>
 
-        <div className="products">
-          {products.map((p) => (
-            <ProductCard
-              key={p.id}
-              name={p.name}
-              price={p.price}
-              brand={p.brand}
-              image={p.image}
-            />
-          ))}
-        </div>
+        {/* Раздел «Популярные товары» — уже h2 */}
+        <section>
+          <h2 className="section-title">Популярные товары</h2>
+
+          <div className="products">
+            {products.map((p) => (
+              <ProductCard
+                key={p.id}
+                name={p.name}
+                price={p.price}
+                brand={p.brand}
+                image={p.image}
+              />
+            ))}
+          </div>
+        </section>
       </main>
     </>
   );
