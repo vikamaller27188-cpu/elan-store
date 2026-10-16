@@ -1,0 +1,13 @@
+# ============================================
+# robots.txt для сайта ÉLAN
+# ============================================
+
+User-agent: *
+Disallow: /profile
+Disallow: /login
+Disallow: /register
+Disallow: /cart
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://example.com/sitemap.xml
