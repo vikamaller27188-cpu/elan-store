@@ -1,6 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Header() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Функция для отправки формы поиска
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Переходим в каталог с параметром поиска
+      navigate(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="header">
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -9,11 +22,19 @@ export default function Header() {
           <img src="/images/logo.png" alt="ÉLAN" style={{ height: 48 }} />
         </Link>
         
-  
         <Link to="/catalog" className="menu">каталог</Link>
       </div>
 
-      <input type="text" className="search" placeholder="поиск" />
+      {/* Оборачиваем поиск в форму для обработки нажатия Enter */}
+      <form onSubmit={handleSearch} className="search-form">
+        <input 
+          type="text" 
+          className="search" 
+          placeholder="поиск" 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </form>
 
       {/* Иконки навигации */}
       <nav className="nav">
