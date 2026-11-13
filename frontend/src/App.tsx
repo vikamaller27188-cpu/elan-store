@@ -3,7 +3,7 @@ import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import CatalogPage from './pages/CatalogPage';
 import DesignersPage from './pages/DesignersPage';
-import CartPage from './pages/CartPage'; // <-- Импорт есть (вы уже сделали)
+import CartPage from './pages/CartPage'; // 
 import FavoritesPage from './pages/FavoritesPage';
 import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';

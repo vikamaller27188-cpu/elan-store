@@ -88,8 +88,8 @@ body {
 /* Контент */
 .main {
   padding: 30px 40px;
-  max-width: 1200px; /* Ограничиваем ширину контента */
-  margin: 0 auto;    /* Центрируем по экрану */
+  max-width: 1200px; 
+  margin: 0 auto;    
 }
 
 .page-title {
@@ -896,7 +896,7 @@ body {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: rgba(26, 26, 26, 0.9); /* Темный фон */
+  background-color: rgba(26, 26, 26, 0.9); 
   backdrop-filter: blur(10px);
   color: #fff;
   padding: 16px 24px;
