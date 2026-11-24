@@ -20,8 +20,6 @@ export default function ProductCard({
   category = 'clothing' 
 }: ProductCardProps) {
   const { addToCart } = useCart();
-  
-  // Состояние для показа уведомления
   const [showToast, setShowToast] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -39,10 +37,8 @@ export default function ProductCard({
       size: defaultSize,
     });
     
-    // Показываем уведомление
     setShowToast(true);
-    
-    // Скрываем его через 3 секунды
+  
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
@@ -61,8 +57,6 @@ export default function ProductCard({
       >
         В корзину
       </button>
-
-      {/* Красивое всплывающее уведомление */}
       {showToast && (
         <div className="custom-toast">
           <p>Товар добавлен в корзину!</p>

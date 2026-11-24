@@ -1,14 +1,39 @@
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { allProducts } from './HomePage'; // Берем товары с главной
 import ProductCard from '../components/ProductCard';
+import { supabase } from '../lib/supabaseClient';
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  brand: string;
+  image: string;
+  category: string;
+}
 
 export default function CatalogPage() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
-  // Фильтруем товары по названию или бренду
-  const filteredProducts = allProducts.filter((p) => 
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Загружаем товары из Supabase
+  useEffect(() => {
+    async function fetchProducts() {
+      const { data, error } = await supabase.from('products').select('*');
+      if (!error && data) {
+        setProducts(data);
+      }
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
+  // Фильтруем товары по поисковому запросу
+  const filteredProducts = products.filter((p) => 
     p.name.toLowerCase().includes(searchQuery) || 
     p.brand.toLowerCase().includes(searchQuery)
   );
@@ -22,7 +47,9 @@ export default function CatalogPage() {
         <section style={{ marginBottom: '40px' }}>
           <h2 className="section-title">Результаты поиска: «{searchQuery}»</h2>
           
-          {filteredProducts.length > 0 ? (
+          {loading ? (
+            <p>Загрузка...</p>
+          ) : filteredProducts.length > 0 ? (
             <div className="products">
               {filteredProducts.map((p) => (
                 <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} brand={p.brand} image={p.image} category={p.category} />

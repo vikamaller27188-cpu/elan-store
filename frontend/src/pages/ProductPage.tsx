@@ -1,31 +1,41 @@
 import { Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import { allProducts } from './HomePage'; // <-- Импортируем список с главной
+import { supabase } from '../lib/supabaseClient';
 
 export default function ProductPage() {
   const { id } = useParams();
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('M'); // По умолчанию M
   const { addToCart } = useCart();
 
-  // Ищем товар по ID
-  const product = allProducts.find((p) => p.id === Number(id));
+  useEffect(() => {
+    async function fetchProduct() {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', Number(id))
+        .single();
+        
+      if (!error && data) {
+        setProduct(data);
+        // Устанавливаем размер по умолчанию в зависимости от категории
+        if (data.category === 'accessories') setSelectedSize('One size');
+        else if (data.category === 'shoes') setSelectedSize('37');
+        else setSelectedSize('M');
+      }
+      setLoading(false);
+    }
+    fetchProduct();
+  }, [id]);
 
-  if (!product) {
-    return (
-      <div style={{ padding: '40px', textAlign: 'center' }}>
-        <h2>Товар не найден</h2>
-        <Link to="/">Вернуться на главную</Link>
-      </div>
-    );
-  }
+  if (loading) return <p>Загрузка...</p>;
+  if (!product) return <p>Товар не найден</p>;
 
   const isAccessory = product.category === 'accessories';
   const isShoes = product.category === 'shoes';
-
-  const [selectedSize, setSelectedSize] = useState(
-    isAccessory ? 'One size' : (isShoes ? '37' : 'M')
-  );
 
   const clothingSizes = ['XS', 'S', 'M', 'L', 'XL'];
   const shoeSizes = ['36', '37', '38', '39', '40'];

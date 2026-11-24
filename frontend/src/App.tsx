@@ -15,6 +15,7 @@ import PaymentsPage from './pages/PaymentsPage';
 import ReviewsPage from './pages/ReviewsPage';
 import DesignerPage from './pages/DesignerPage';
 import ProductPage from './pages/ProductPage';
+import CheckoutPage from './pages/CheckoutPage';
 import './styles.css';
 
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
          <Route path="/profile/reviews" element={<ReviewsPage />} />
       <Route path="/designers/:id" element={<DesignerPage />} />
       <Route path="/product/:id" element={<ProductPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </main>
     </BrowserRouter>

@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
-// Тип товара
 interface CartItem {
   id: number;
   name: string;

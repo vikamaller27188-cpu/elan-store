@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import DeliveryMap from '../components/DeliveryMap';
-import { useCart } from '../context/CartContext'; // <-- Импорт контекста
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function CartPage() {
-  // Получаем товары и функцию удаления из контекста
   const { cartItems, removeFromCart } = useCart();
+  const { user } = useAuth(); 
 
-  // Считаем итоговую стоимость
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
@@ -14,7 +14,6 @@ export default function CartPage() {
       <h1 className="page-title">Корзина</h1>
 
       <div className="cart-layout">
-        {/* Левая часть — список товаров */}
         <div className="cart-items">
           <h2 className="section-title">К заказу</h2>
 
@@ -32,7 +31,6 @@ export default function CartPage() {
                   <p className="size">Размер: {item.size}</p>
                   <div className="cart-item-actions">
                     <button className="btn-buy">{item.price.toLocaleString('ru-RU')} ₽</button>
-                    {/* Привязываем функцию удаления */}
                     <button className="btn-remove" onClick={() => removeFromCart(item.id)}>
                       убрать
                     </button>
@@ -43,7 +41,6 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* Правая часть — оформление */}
         <div className="cart-summary">
           <div className="total-price">
             Итоговая стоимость: <strong>{totalPrice.toLocaleString('ru-RU')} ₽</strong>
@@ -56,8 +53,8 @@ export default function CartPage() {
             <DeliveryMap />
           </div>
 
-          <Link to="/checkout" className="btn-checkout">
-            Оформить заказ
+          <Link to={user ? "/checkout" : "/login"} className="btn-checkout">
+            {user ? "Оформить заказ" : "Войти для оформления"}
           </Link>
         </div>
       </div>

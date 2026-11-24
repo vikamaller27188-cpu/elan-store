@@ -9,7 +9,6 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Переходим в каталог с параметром поиска
       navigate(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
@@ -25,7 +24,6 @@ export default function Header() {
         <Link to="/catalog" className="menu">каталог</Link>
       </div>
 
-      {/* Оборачиваем поиск в форму для обработки нажатия Enter */}
       <form onSubmit={handleSearch} className="search-form">
         <input 
           type="text" 
@@ -36,7 +34,6 @@ export default function Header() {
         />
       </form>
 
-      {/* Иконки навигации */}
       <nav className="nav">
         <Link to="/cart">
           <img src="/images/icons/cart.png" alt="корзина" className="nav-icon" />

@@ -1,57 +1,34 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  
-  // Состояния для полей ввода (чтобы потом можно было отправить данные на сервер)
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  // Функция, которая срабатывает при нажатии на "Войти"
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault(); // Отменяем перезагрузку страницы
-    
-    // Тут в будущем будет проверка логина и пароля через базу данных.
-    // А пока мы просто имитируем успешный вход:
-    if (email && password) {
-      navigate('/profile'); // Переходим в Личный кабинет
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error: authError } = await signIn(email, password);
+    if (authError) {
+      setError('Неверный email или пароль');
     } else {
-      alert('Пожалуйста, заполните все поля');
+      navigate('/profile');
     }
   };
 
   return (
     <>
       <h1 className="page-title login-title">Вход в аккаунт</h1>
-      
       <div className="login-wrapper">
         <form className="login-box" onSubmit={handleLogin}>
-          {/* Поля ввода */}
-          <input 
-            type="text" 
-            placeholder="логин или телефон" 
-            className="login-input" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input 
-            type="password" 
-            placeholder="пароль" 
-            className="login-input" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          
-          <a href="#" className="forgot-link">Забыли пароль?</a>
-          
+          <input type="email" placeholder="Email" className="login-input" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Пароль" className="login-input" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
           <button type="submit" className="btn-login">Войти</button>
-          
-          <p className="register-link">
-            Нет аккаунта? <Link to="/register">Регистрация</Link>
-          </p>
+          <p className="register-link">Нет аккаунта? <Link to="/register">Регистрация</Link></p>
         </form>
       </div>
     </>
